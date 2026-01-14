@@ -1,35 +1,30 @@
-<div class="app-container">
-    <header>
-        <h1>Precision<span>Convert</span></h1>
-    </header>
-
-    <div class="control-group">
-        <label>Engineering Metric</label>
-        <select id="categorySelect">
-            <option value="length">Length & Distance</option>
-            <option value="mass">Mass & Weight</option>
-            <option value="temperature">Thermodynamics</option>
-        </select>
+<div class="card">
+    <h2>Unit Converter</h2>
+    
+    <div class="input-group">
+        <label>Value to Convert</label>
+        <input type="number" id="inputAmount" placeholder="Enter number...">
     </div>
 
-    <div class="converter-box">
-        <div class="unit-input">
-            <input type="number" id="fromInput" placeholder="Enter value">
-            <select id="fromUnit" style="margin-top: 8px;"></select>
+    <div class="row">
+        <div class="input-group">
+            <label>From</label>
+            <select id="fromUnit">
+                <option value="meters">Meters</option>
+                </select>
         </div>
         
-        <div class="arrow">↓</div>
-
-        <div class="unit-input">
-            <input type="number" id="toOutput" placeholder="Result" readonly style="background: #f1f5f9;">
-            <select id="toUnit" style="margin-top: 8px;"></select>
+        <div class="input-group">
+            <label>To</label>
+            <select id="toUnit">
+                <option value="feet">Feet</option>
+                </select>
         </div>
     </div>
 
-    <button id="saveBtn" class="funky-btn">Save to History</button>
+    <button id="convertBtn">Convert Now</button>
 
-    <section class="favorites-section">
-        <h3>Conversion History</h3>
-        <ul id="favList"></ul>
-    </section>
+    <div class="result-area">
+        <p id="resultDisplay">Result will appear here</p>
+    </div>
 </div>
