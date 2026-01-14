@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EngiConvert | Pro Unit Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Engineering <span>Unit</span> Converter</h1>
+        </header>
+
+        <section class="main-card">
+            <div class="control-group">
+                <label>Category</label>
+                <select id="categorySelect">
+                    <option value="length">Length (Distance)</option>
+                    <option value="mass">Mass (Weight)</option>
+                    <option value="temperature">Temperature</option>
+                </select>
+            </div>
+
+            <div class="converter-box">
+                <div class="unit-input">
+                    <input type="number" id="fromInput" placeholder="Value" step="any">
+                    <select id="fromUnit"></select>
+                </div>
+                <div class="arrow">→</div>
+                <div class="unit-input">
+                    <input type="number" id="toOutput" placeholder="Result" readonly>
+                    <select id="toUnit"></select>
+                </div>
+            </div>
+
+            <button id="saveBtn" class="funky-btn">★ Save to Favorites</button>
+        </section>
+
+        <section class="favorites-section">
+            <h3>Recent Conversions</h3>
+            <ul id="favList"></ul>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
