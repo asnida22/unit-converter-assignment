@@ -1,4 +1,6 @@
-:root {
+* {
+    border: 1px solid red !important; /* This outlines every element so you can see where they are */
+}:root {
     --yellow: #facc15;
     --purple: #a855f7;
     --pink: #f472b6;
