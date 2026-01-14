@@ -1,63 +1,74 @@
-const unitData = {
-    length: { meters: 1, km: 0.001, feet: 3.28084, inches: 39.3701 },
-    mass: { kg: 1, grams: 1000, pounds: 2.20462, ounces: 35.274 },
-    temperature: 'temp' // Handled via functions
+const units = {
+    length: { meters: 1, kilometers: 0.001, miles: 0.000621, feet: 3.28084 },
+    mass: { grams: 1, kilograms: 0.001, pounds: 0.002204, ounces: 0.03527 },
+    temp: 'special' // Temp requires formulas, not just multipliers
 };
 
-const category = document.getElementById('categorySelect');
-const fromUnit = document.getElementById('fromUnit');
-const toUnit = document.getElementById('toUnit');
-const fromInput = document.getElementById('fromInput');
-const toOutput = document.getElementById('toOutput');
-const favList = document.getElementById('favList');
+let currentCat = 'length';
 
-// Initialize Dropdowns
-function populateUnits() {
-    const type = category.value;
-    const units = type === 'temperature' ? ['Celsius', 'Fahrenheit', 'Kelvin'] : Object.keys(unitData[type]);
+function updateCategory(cat) {
+    currentCat = cat;
+    const fromSelect = document.getElementById('fromUnit');
+    const toSelect = document.getElementById('toUnit');
     
-    const options = units.map(u => `<option value="${u}">${u}</option>`).join('');
-    fromUnit.innerHTML = options;
-    toUnit.innerHTML = options;
-    convert();
+    // Toggle active button UI
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.toLowerCase().includes(cat));
+    });
+
+    // Clear and fill dropdowns
+    fromSelect.innerHTML = '';
+    toSelect.innerHTML = '';
+    
+    const options = cat === 'temp' ? ['Celsius', 'Fahrenheit', 'Kelvin'] : Object.keys(units[cat]);
+    
+    options.forEach(unit => {
+        fromSelect.innerHTML += `<option value="${unit}">${unit}</option>`;
+        toSelect.innerHTML += `<option value="${unit}">${unit}</option>`;
+    });
 }
 
-function convert() {
-    const val = parseFloat(fromInput.value);
-    if (isNaN(val)) { toOutput.value = ""; return; }
+document.getElementById('convertBtn').onclick = () => {
+    const val = parseFloat(document.getElementById('inputValue').value);
+    const from = document.getElementById('fromUnit').value;
+    const to = document.getElementById('toUnit').value;
 
-    const type = category.value;
-    if (type === 'temperature') {
-        toOutput.value = convertTemp(val, fromUnit.value, toUnit.value).toFixed(2);
-    } else {
-        const result = val * (unitData[type][toUnit.value] / unitData[type][fromUnit.value]);
-        toOutput.value = result.toFixed(4);
+    if (isNaN(val)) {
+        alert("Oops! Please enter a valid number.");
+        return;
     }
-}
+
+    let result;
+    if (currentCat === 'temp') {
+        result = convertTemp(val, from, to);
+    } else {
+        const inMeters = val / units[currentCat][from];
+        result = inMeters * units[currentCat][to];
+    }
+
+    document.getElementById('resultText').innerText = result.toFixed(4);
+};
 
 function convertTemp(v, f, t) {
-    let c;
-    if (f === 'Celsius') c = v;
-    else if (f === 'Fahrenheit') c = (v - 32) * 5/9;
-    else c = v - 273.15;
+    if (f === t) return v;
+    let celsius;
+    if (f === 'Celsius') celsius = v;
+    else if (f === 'Fahrenheit') celsius = (v - 32) * 5/9;
+    else celsius = v - 273.15;
 
-    if (t === 'Celsius') return c;
-    if (t === 'Fahrenheit') return (c * 9/5) + 32;
-    return c + 273.15;
+    if (t === 'Celsius') return celsius;
+    if (t === 'Fahrenheit') return (celsius * 9/5) + 32;
+    return celsius + 273.15;
 }
 
-// Saving Feature
-document.getElementById('saveBtn').addEventListener('click', () => {
-    if (!toOutput.value) return;
-    const log = `${fromInput.value}${fromUnit.value} = ${toOutput.value}${toUnit.value}`;
+document.getElementById('saveBtn').onclick = () => {
+    const res = document.getElementById('resultText').innerText;
+    if (res === "0") return;
     const li = document.createElement('li');
-    li.textContent = log;
-    favList.prepend(li); // Adds to top of list
-});
+    li.className = 'saved-item';
+    li.innerText = `⭐ ${res} (${document.getElementById('toUnit').value})`;
+    document.getElementById('savedList').appendChild(li);
+};
 
-category.addEventListener('change', populateUnits);
-fromInput.addEventListener('input', convert);
-fromUnit.addEventListener('change', convert);
-toUnit.addEventListener('change', convert);
-
-populateUnits(); // Run once on load
+// Initialize
+updateCategory('length');

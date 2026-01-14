@@ -1,30 +1,47 @@
-<div class="card">
-    <h2>Unit Converter</h2>
-    
-    <div class="input-group">
-        <label>Value to Convert</label>
-        <input type="number" id="inputAmount" placeholder="Enter number...">
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funky Engineering Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚙️ Unit Magic</h1>
+            <p>Engineering math, but make it cute.</p>
+        </header>
 
-    <div class="row">
-        <div class="input-group">
-            <label>From</label>
-            <select id="fromUnit">
-                <option value="meters">Meters</option>
-                </select>
-        </div>
-        
-        <div class="input-group">
-            <label>To</label>
-            <select id="toUnit">
-                <option value="feet">Feet</option>
-                </select>
-        </div>
-    </div>
+        <main class="converter-card">
+            <div class="category-select">
+                <button onclick="updateCategory('length')" class="cat-btn active">Length</button>
+                <button onclick="updateCategory('mass')" class="cat-btn">Mass</button>
+                <button onclick="updateCategory('temp')" class="cat-btn">Temp</button>
+            </div>
 
-    <button id="convertBtn">Convert Now</button>
+            <div class="input-area">
+                <input type="number" id="inputValue" placeholder="0.00">
+                <select id="fromUnit"></select>
+                <span class="to-label">to</span>
+                <select id="toUnit"></select>
+            </div>
 
-    <div class="result-area">
-        <p id="resultDisplay">Result will appear here</p>
+            <div class="result-display">
+                <h2 id="resultText">0</h2>
+            </div>
+
+            <div class="actions">
+                <button id="convertBtn" class="main-btn">Convert!</button>
+                <button id="saveBtn" class="sec-btn">⭐ Save</button>
+            </div>
+        </main>
+
+        <section class="saved-section">
+            <h3>Saved Loops</h3>
+            <ul id="savedList"></ul>
+        </section>
     </div>
-</div>
+    <script src="script.js"></script>
+</body>
+</html>
